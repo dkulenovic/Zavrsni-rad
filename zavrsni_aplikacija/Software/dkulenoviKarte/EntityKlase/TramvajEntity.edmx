@@ -1,0 +1,751 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="tramvaj_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Karta">
+          <Key>
+            <PropertyRef Name="id_karta" />
+          </Key>
+          <Property Name="id_karta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="trenutak_aktivacije" Type="datetime2" Precision="0" />
+          <Property Name="valjanost" Type="int" />
+          <Property Name="datum_kupnje" Type="datetime2" Precision="0" />
+          <Property Name="id_vrsta_karte" Type="int" Nullable="false" />
+          <Property Name="id_mjesto" Type="int" Nullable="false" />
+          <Property Name="id_korisnik" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="id_korisnik" />
+          </Key>
+          <Property Name="id_korisnik" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ime" Type="varchar" MaxLength="45" />
+          <Property Name="prezime" Type="varchar" MaxLength="45" />
+          <Property Name="korisnicko_ime" Type="varchar" MaxLength="45" />
+          <Property Name="datum_rodenja" Type="date" />
+          <Property Name="adresa" Type="varchar" MaxLength="45" />
+          <Property Name="email" Type="varchar" MaxLength="45" />
+          <Property Name="broj_mobitela" Type="int" />
+          <Property Name="uvjeti_koristenja" Type="int" />
+          <Property Name="uloga_id_uloga" Type="int" />
+        </EntityType>
+        <EntityType Name="Linija">
+          <Key>
+            <PropertyRef Name="id_linija" />
+          </Key>
+          <Property Name="id_linija" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naziv" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="Mjesto">
+          <Key>
+            <PropertyRef Name="id_mjesto" />
+          </Key>
+          <Property Name="id_mjesto" Type="int" Nullable="false" />
+          <Property Name="naziv" Type="varchar" MaxLength="45" />
+          <Property Name="postanski_broj" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="Stanica">
+          <Key>
+            <PropertyRef Name="id_stanica" />
+          </Key>
+          <Property Name="id_stanica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naziv" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="Tramvaj">
+          <Key>
+            <PropertyRef Name="id_tramvaj" />
+          </Key>
+          <Property Name="id_tramvaj" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="broj_vagona" Type="varchar" MaxLength="45" />
+          <Property Name="broj_sjedala" Type="varchar" MaxLength="45" />
+          <Property Name="kapacitet_ljudi" Type="varchar" MaxLength="45" />
+          <Property Name="godina_proizvodnje" Type="varchar" MaxLength="45" />
+          <Property Name="id_vozac" Type="int" />
+        </EntityType>
+        <EntityType Name="Uloga">
+          <Key>
+            <PropertyRef Name="id_uloga" />
+          </Key>
+          <Property Name="id_uloga" Type="int" Nullable="false" />
+          <Property Name="naziv" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="Vozac">
+          <Key>
+            <PropertyRef Name="id_vozac" />
+          </Key>
+          <Property Name="id_vozac" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ime" Type="varchar" MaxLength="45" />
+          <Property Name="prezime" Type="varchar" MaxLength="45" />
+          <Property Name="placa" Type="varchar" MaxLength="45" />
+          <Property Name="datum_rodenja" Type="varchar" MaxLength="45" />
+          <Property Name="telefon" Type="varchar" MaxLength="45" />
+          <Property Name="email" Type="varchar" MaxLength="45" />
+          <Property Name="adresa" Type="varchar" MaxLength="45" />
+          <Property Name="id_korisnik" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vozna_ruta">
+          <Key>
+            <PropertyRef Name="id_stanica" />
+            <PropertyRef Name="id_linija" />
+          </Key>
+          <Property Name="id_stanica" Type="int" Nullable="false" />
+          <Property Name="id_linija" Type="int" Nullable="false" />
+          <Property Name="vrijeme_dolaska" Type="time" Precision="0" />
+          <Property Name="vrijeme_odlaska" Type="time" Precision="0" />
+        </EntityType>
+        <EntityType Name="Vozni_red">
+          <Key>
+            <PropertyRef Name="id_vozni_red" />
+          </Key>
+          <Property Name="id_vozni_red" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vrijeme_pocetka" Type="time" Precision="0" />
+          <Property Name="vrijeme_zavrsetka" Type="time" Precision="0" />
+          <Property Name="status" Type="int" />
+          <Property Name="id_tramvaj" Type="int" Nullable="false" />
+          <Property Name="id_linija" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vrsta_karte">
+          <Key>
+            <PropertyRef Name="id_vrsta_karte" />
+          </Key>
+          <Property Name="id_vrsta_karte" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naziv" Type="varchar" MaxLength="45" />
+          <Property Name="trajanje_valjanosti" Type="int" />
+          <Property Name="cijena" Type="int" />
+        </EntityType>
+        <Association Name="fk_karta_korisnik1">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Karta" Type="Self.Karta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnik" />
+            </Principal>
+            <Dependent Role="Karta">
+              <PropertyRef Name="id_korisnik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_karta_mjesto1">
+          <End Role="Mjesto" Type="Self.Mjesto" Multiplicity="1" />
+          <End Role="Karta" Type="Self.Karta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mjesto">
+              <PropertyRef Name="id_mjesto" />
+            </Principal>
+            <Dependent Role="Karta">
+              <PropertyRef Name="id_mjesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_karta_vrsta_karte1">
+          <End Role="Vrsta_karte" Type="Self.Vrsta_karte" Multiplicity="1" />
+          <End Role="Karta" Type="Self.Karta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vrsta_karte">
+              <PropertyRef Name="id_vrsta_karte" />
+            </Principal>
+            <Dependent Role="Karta">
+              <PropertyRef Name="id_vrsta_karte" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_korisnik_uloga1">
+          <End Role="Uloga" Type="Self.Uloga" Multiplicity="0..1" />
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uloga">
+              <PropertyRef Name="id_uloga" />
+            </Principal>
+            <Dependent Role="Korisnik">
+              <PropertyRef Name="uloga_id_uloga" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_linija_has_stanica_linija">
+          <End Role="Linija" Type="Self.Linija" Multiplicity="1" />
+          <End Role="Vozna_ruta" Type="Self.Vozna_ruta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linija">
+              <PropertyRef Name="id_linija" />
+            </Principal>
+            <Dependent Role="Vozna_ruta">
+              <PropertyRef Name="id_stanica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_linija_has_stanica_stanica1">
+          <End Role="Stanica" Type="Self.Stanica" Multiplicity="1" />
+          <End Role="Vozna_ruta" Type="Self.Vozna_ruta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stanica">
+              <PropertyRef Name="id_stanica" />
+            </Principal>
+            <Dependent Role="Vozna_ruta">
+              <PropertyRef Name="id_linija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tramvaj_vozac1">
+          <End Role="Vozac" Type="Self.Vozac" Multiplicity="0..1" />
+          <End Role="Tramvaj" Type="Self.Tramvaj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vozac">
+              <PropertyRef Name="id_vozac" />
+            </Principal>
+            <Dependent Role="Tramvaj">
+              <PropertyRef Name="id_vozac" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_vozac_korisnik1">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Vozac" Type="Self.Vozac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnik" />
+            </Principal>
+            <Dependent Role="Vozac">
+              <PropertyRef Name="id_korisnik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_vozni_red_linija1">
+          <End Role="Linija" Type="Self.Linija" Multiplicity="1" />
+          <End Role="Vozni_red" Type="Self.Vozni_red" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linija">
+              <PropertyRef Name="id_linija" />
+            </Principal>
+            <Dependent Role="Vozni_red">
+              <PropertyRef Name="id_linija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_vozni_red_tramvaj1">
+          <End Role="Tramvaj" Type="Self.Tramvaj" Multiplicity="1" />
+          <End Role="Vozni_red" Type="Self.Vozni_red" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tramvaj">
+              <PropertyRef Name="id_tramvaj" />
+            </Principal>
+            <Dependent Role="Vozni_red">
+              <PropertyRef Name="id_tramvaj" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="tramvaj_dbModelStoreContainer">
+          <EntitySet Name="Karta" EntityType="Self.Karta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Linija" EntityType="Self.Linija" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mjesto" EntityType="Self.Mjesto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stanica" EntityType="Self.Stanica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tramvaj" EntityType="Self.Tramvaj" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uloga" EntityType="Self.Uloga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vozac" EntityType="Self.Vozac" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vozna_ruta" EntityType="Self.Vozna_ruta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vozni_red" EntityType="Self.Vozni_red" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vrsta_karte" EntityType="Self.Vrsta_karte" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_karta_korisnik1" Association="Self.fk_karta_korisnik1">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Karta" EntitySet="Karta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_karta_mjesto1" Association="Self.fk_karta_mjesto1">
+            <End Role="Mjesto" EntitySet="Mjesto" />
+            <End Role="Karta" EntitySet="Karta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_karta_vrsta_karte1" Association="Self.fk_karta_vrsta_karte1">
+            <End Role="Vrsta_karte" EntitySet="Vrsta_karte" />
+            <End Role="Karta" EntitySet="Karta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_korisnik_uloga1" Association="Self.fk_korisnik_uloga1">
+            <End Role="Uloga" EntitySet="Uloga" />
+            <End Role="Korisnik" EntitySet="Korisnik" />
+          </AssociationSet>
+          <AssociationSet Name="fk_linija_has_stanica_linija" Association="Self.fk_linija_has_stanica_linija">
+            <End Role="Linija" EntitySet="Linija" />
+            <End Role="Vozna_ruta" EntitySet="Vozna_ruta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_linija_has_stanica_stanica1" Association="Self.fk_linija_has_stanica_stanica1">
+            <End Role="Stanica" EntitySet="Stanica" />
+            <End Role="Vozna_ruta" EntitySet="Vozna_ruta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tramvaj_vozac1" Association="Self.fk_tramvaj_vozac1">
+            <End Role="Vozac" EntitySet="Vozac" />
+            <End Role="Tramvaj" EntitySet="Tramvaj" />
+          </AssociationSet>
+          <AssociationSet Name="fk_vozac_korisnik1" Association="Self.fk_vozac_korisnik1">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Vozac" EntitySet="Vozac" />
+          </AssociationSet>
+          <AssociationSet Name="fk_vozni_red_linija1" Association="Self.fk_vozni_red_linija1">
+            <End Role="Linija" EntitySet="Linija" />
+            <End Role="Vozni_red" EntitySet="Vozni_red" />
+          </AssociationSet>
+          <AssociationSet Name="fk_vozni_red_tramvaj1" Association="Self.fk_vozni_red_tramvaj1">
+            <End Role="Tramvaj" EntitySet="Tramvaj" />
+            <End Role="Vozni_red" EntitySet="Vozni_red" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="tramvaj_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Karta">
+          <Key>
+            <PropertyRef Name="id_karta" />
+          </Key>
+          <Property Name="id_karta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="trenutak_aktivacije" Type="DateTime" Precision="0" />
+          <Property Name="valjanost" Type="Int32" />
+          <Property Name="datum_kupnje" Type="DateTime" Precision="0" />
+          <Property Name="id_vrsta_karte" Type="Int32" Nullable="false" />
+          <Property Name="id_mjesto" Type="Int32" Nullable="false" />
+          <Property Name="id_korisnik" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.fk_karta_korisnik1" FromRole="Karta" ToRole="Korisnik" />
+          <NavigationProperty Name="Mjesto" Relationship="Self.fk_karta_mjesto1" FromRole="Karta" ToRole="Mjesto" />
+          <NavigationProperty Name="Vrsta_karte" Relationship="Self.fk_karta_vrsta_karte1" FromRole="Karta" ToRole="Vrsta_karte" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="id_korisnik" />
+          </Key>
+          <Property Name="id_korisnik" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ime" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="prezime" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="korisnicko_ime" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="datum_rodenja" Type="DateTime" Precision="0" />
+          <Property Name="adresa" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="broj_mobitela" Type="Int32" />
+          <Property Name="uvjeti_koristenja" Type="Int32" />
+          <Property Name="uloga_id_uloga" Type="Int32" />
+          <NavigationProperty Name="Karta" Relationship="Self.fk_karta_korisnik1" FromRole="Korisnik" ToRole="Karta" />
+          <NavigationProperty Name="Uloga" Relationship="Self.fk_korisnik_uloga1" FromRole="Korisnik" ToRole="Uloga" />
+          <NavigationProperty Name="Vozac" Relationship="Self.fk_vozac_korisnik1" FromRole="Korisnik" ToRole="Vozac" />
+        </EntityType>
+        <EntityType Name="Linija">
+          <Key>
+            <PropertyRef Name="id_linija" />
+          </Key>
+          <Property Name="id_linija" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naziv" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vozna_ruta" Relationship="Self.fk_linija_has_stanica_linija" FromRole="Linija" ToRole="Vozna_ruta" />
+          <NavigationProperty Name="Vozni_red" Relationship="Self.fk_vozni_red_linija1" FromRole="Linija" ToRole="Vozni_red" />
+        </EntityType>
+        <EntityType Name="Mjesto">
+          <Key>
+            <PropertyRef Name="id_mjesto" />
+          </Key>
+          <Property Name="id_mjesto" Type="Int32" Nullable="false" />
+          <Property Name="naziv" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="postanski_broj" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Karta" Relationship="Self.fk_karta_mjesto1" FromRole="Mjesto" ToRole="Karta" />
+        </EntityType>
+        <EntityType Name="Stanica">
+          <Key>
+            <PropertyRef Name="id_stanica" />
+          </Key>
+          <Property Name="id_stanica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naziv" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vozna_ruta" Relationship="Self.fk_linija_has_stanica_stanica1" FromRole="Stanica" ToRole="Vozna_ruta" />
+        </EntityType>
+        <EntityType Name="Tramvaj">
+          <Key>
+            <PropertyRef Name="id_tramvaj" />
+          </Key>
+          <Property Name="id_tramvaj" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="broj_vagona" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="broj_sjedala" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="kapacitet_ljudi" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="godina_proizvodnje" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="id_vozac" Type="Int32" />
+          <NavigationProperty Name="Vozac" Relationship="Self.fk_tramvaj_vozac1" FromRole="Tramvaj" ToRole="Vozac" />
+          <NavigationProperty Name="Vozni_red" Relationship="Self.fk_vozni_red_tramvaj1" FromRole="Tramvaj" ToRole="Vozni_red" />
+        </EntityType>
+        <EntityType Name="Uloga">
+          <Key>
+            <PropertyRef Name="id_uloga" />
+          </Key>
+          <Property Name="id_uloga" Type="Int32" Nullable="false" />
+          <Property Name="naziv" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.fk_korisnik_uloga1" FromRole="Uloga" ToRole="Korisnik" />
+        </EntityType>
+        <EntityType Name="Vozac">
+          <Key>
+            <PropertyRef Name="id_vozac" />
+          </Key>
+          <Property Name="id_vozac" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ime" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="prezime" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="placa" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="datum_rodenja" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="adresa" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="id_korisnik" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Korisnik" Relationship="Self.fk_vozac_korisnik1" FromRole="Vozac" ToRole="Korisnik" />
+          <NavigationProperty Name="Tramvaj" Relationship="Self.fk_tramvaj_vozac1" FromRole="Vozac" ToRole="Tramvaj" />
+        </EntityType>
+        <EntityType Name="Vozna_ruta">
+          <Key>
+            <PropertyRef Name="id_stanica" />
+            <PropertyRef Name="id_linija" />
+          </Key>
+          <Property Name="id_stanica" Type="Int32" Nullable="false" />
+          <Property Name="id_linija" Type="Int32" Nullable="false" />
+          <Property Name="vrijeme_dolaska" Type="Time" Precision="0" />
+          <Property Name="vrijeme_odlaska" Type="Time" Precision="0" />
+          <NavigationProperty Name="Linija" Relationship="Self.fk_linija_has_stanica_linija" FromRole="Vozna_ruta" ToRole="Linija" />
+          <NavigationProperty Name="Stanica" Relationship="Self.fk_linija_has_stanica_stanica1" FromRole="Vozna_ruta" ToRole="Stanica" />
+        </EntityType>
+        <EntityType Name="Vozni_red">
+          <Key>
+            <PropertyRef Name="id_vozni_red" />
+          </Key>
+          <Property Name="id_vozni_red" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vrijeme_pocetka" Type="Time" Precision="0" />
+          <Property Name="vrijeme_zavrsetka" Type="Time" Precision="0" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="id_tramvaj" Type="Int32" Nullable="false" />
+          <Property Name="id_linija" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Linija" Relationship="Self.fk_vozni_red_linija1" FromRole="Vozni_red" ToRole="Linija" />
+          <NavigationProperty Name="Tramvaj" Relationship="Self.fk_vozni_red_tramvaj1" FromRole="Vozni_red" ToRole="Tramvaj" />
+        </EntityType>
+        <EntityType Name="Vrsta_karte">
+          <Key>
+            <PropertyRef Name="id_vrsta_karte" />
+          </Key>
+          <Property Name="id_vrsta_karte" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naziv" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="trajanje_valjanosti" Type="Int32" />
+          <Property Name="cijena" Type="Int32" />
+          <NavigationProperty Name="Karta" Relationship="Self.fk_karta_vrsta_karte1" FromRole="Vrsta_karte" ToRole="Karta" />
+        </EntityType>
+        <Association Name="fk_karta_korisnik1">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Karta" Type="Self.Karta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnik" />
+            </Principal>
+            <Dependent Role="Karta">
+              <PropertyRef Name="id_korisnik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_karta_mjesto1">
+          <End Role="Mjesto" Type="Self.Mjesto" Multiplicity="1" />
+          <End Role="Karta" Type="Self.Karta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mjesto">
+              <PropertyRef Name="id_mjesto" />
+            </Principal>
+            <Dependent Role="Karta">
+              <PropertyRef Name="id_mjesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_karta_vrsta_karte1">
+          <End Role="Vrsta_karte" Type="Self.Vrsta_karte" Multiplicity="1" />
+          <End Role="Karta" Type="Self.Karta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vrsta_karte">
+              <PropertyRef Name="id_vrsta_karte" />
+            </Principal>
+            <Dependent Role="Karta">
+              <PropertyRef Name="id_vrsta_karte" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_korisnik_uloga1">
+          <End Role="Uloga" Type="Self.Uloga" Multiplicity="0..1" />
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uloga">
+              <PropertyRef Name="id_uloga" />
+            </Principal>
+            <Dependent Role="Korisnik">
+              <PropertyRef Name="uloga_id_uloga" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_vozac_korisnik1">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Vozac" Type="Self.Vozac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="id_korisnik" />
+            </Principal>
+            <Dependent Role="Vozac">
+              <PropertyRef Name="id_korisnik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_linija_has_stanica_linija">
+          <End Role="Linija" Type="Self.Linija" Multiplicity="1" />
+          <End Role="Vozna_ruta" Type="Self.Vozna_ruta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linija">
+              <PropertyRef Name="id_linija" />
+            </Principal>
+            <Dependent Role="Vozna_ruta">
+              <PropertyRef Name="id_stanica" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_vozni_red_linija1">
+          <End Role="Linija" Type="Self.Linija" Multiplicity="1" />
+          <End Role="Vozni_red" Type="Self.Vozni_red" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Linija">
+              <PropertyRef Name="id_linija" />
+            </Principal>
+            <Dependent Role="Vozni_red">
+              <PropertyRef Name="id_linija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_linija_has_stanica_stanica1">
+          <End Role="Stanica" Type="Self.Stanica" Multiplicity="1" />
+          <End Role="Vozna_ruta" Type="Self.Vozna_ruta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stanica">
+              <PropertyRef Name="id_stanica" />
+            </Principal>
+            <Dependent Role="Vozna_ruta">
+              <PropertyRef Name="id_linija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tramvaj_vozac1">
+          <End Role="Vozac" Type="Self.Vozac" Multiplicity="0..1" />
+          <End Role="Tramvaj" Type="Self.Tramvaj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vozac">
+              <PropertyRef Name="id_vozac" />
+            </Principal>
+            <Dependent Role="Tramvaj">
+              <PropertyRef Name="id_vozac" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_vozni_red_tramvaj1">
+          <End Role="Tramvaj" Type="Self.Tramvaj" Multiplicity="1" />
+          <End Role="Vozni_red" Type="Self.Vozni_red" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tramvaj">
+              <PropertyRef Name="id_tramvaj" />
+            </Principal>
+            <Dependent Role="Vozni_red">
+              <PropertyRef Name="id_tramvaj" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Karta" EntityType="Self.Karta" />
+          <EntitySet Name="Korisnik" EntityType="Self.Korisnik" />
+          <EntitySet Name="Linija" EntityType="Self.Linija" />
+          <EntitySet Name="Mjesto" EntityType="Self.Mjesto" />
+          <EntitySet Name="Stanica" EntityType="Self.Stanica" />
+          <EntitySet Name="Tramvaj" EntityType="Self.Tramvaj" />
+          <EntitySet Name="Uloga" EntityType="Self.Uloga" />
+          <EntitySet Name="Vozac" EntityType="Self.Vozac" />
+          <EntitySet Name="Vozna_ruta" EntityType="Self.Vozna_ruta" />
+          <EntitySet Name="Vozni_red" EntityType="Self.Vozni_red" />
+          <EntitySet Name="Vrsta_karte" EntityType="Self.Vrsta_karte" />
+          <AssociationSet Name="fk_karta_korisnik1" Association="Self.fk_karta_korisnik1">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Karta" EntitySet="Karta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_karta_mjesto1" Association="Self.fk_karta_mjesto1">
+            <End Role="Mjesto" EntitySet="Mjesto" />
+            <End Role="Karta" EntitySet="Karta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_karta_vrsta_karte1" Association="Self.fk_karta_vrsta_karte1">
+            <End Role="Vrsta_karte" EntitySet="Vrsta_karte" />
+            <End Role="Karta" EntitySet="Karta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_korisnik_uloga1" Association="Self.fk_korisnik_uloga1">
+            <End Role="Uloga" EntitySet="Uloga" />
+            <End Role="Korisnik" EntitySet="Korisnik" />
+          </AssociationSet>
+          <AssociationSet Name="fk_vozac_korisnik1" Association="Self.fk_vozac_korisnik1">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Vozac" EntitySet="Vozac" />
+          </AssociationSet>
+          <AssociationSet Name="fk_linija_has_stanica_linija" Association="Self.fk_linija_has_stanica_linija">
+            <End Role="Linija" EntitySet="Linija" />
+            <End Role="Vozna_ruta" EntitySet="Vozna_ruta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_vozni_red_linija1" Association="Self.fk_vozni_red_linija1">
+            <End Role="Linija" EntitySet="Linija" />
+            <End Role="Vozni_red" EntitySet="Vozni_red" />
+          </AssociationSet>
+          <AssociationSet Name="fk_linija_has_stanica_stanica1" Association="Self.fk_linija_has_stanica_stanica1">
+            <End Role="Stanica" EntitySet="Stanica" />
+            <End Role="Vozna_ruta" EntitySet="Vozna_ruta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tramvaj_vozac1" Association="Self.fk_tramvaj_vozac1">
+            <End Role="Vozac" EntitySet="Vozac" />
+            <End Role="Tramvaj" EntitySet="Tramvaj" />
+          </AssociationSet>
+          <AssociationSet Name="fk_vozni_red_tramvaj1" Association="Self.fk_vozni_red_tramvaj1">
+            <End Role="Tramvaj" EntitySet="Tramvaj" />
+            <End Role="Vozni_red" EntitySet="Vozni_red" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="tramvaj_dbModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Karta">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Karta">
+              <MappingFragment StoreEntitySet="Karta">
+                <ScalarProperty Name="id_karta" ColumnName="id_karta" />
+                <ScalarProperty Name="trenutak_aktivacije" ColumnName="trenutak_aktivacije" />
+                <ScalarProperty Name="valjanost" ColumnName="valjanost" />
+                <ScalarProperty Name="datum_kupnje" ColumnName="datum_kupnje" />
+                <ScalarProperty Name="id_vrsta_karte" ColumnName="id_vrsta_karte" />
+                <ScalarProperty Name="id_mjesto" ColumnName="id_mjesto" />
+                <ScalarProperty Name="id_korisnik" ColumnName="id_korisnik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Korisnik">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Korisnik">
+              <MappingFragment StoreEntitySet="Korisnik">
+                <ScalarProperty Name="id_korisnik" ColumnName="id_korisnik" />
+                <ScalarProperty Name="ime" ColumnName="ime" />
+                <ScalarProperty Name="prezime" ColumnName="prezime" />
+                <ScalarProperty Name="korisnicko_ime" ColumnName="korisnicko_ime" />
+                <ScalarProperty Name="datum_rodenja" ColumnName="datum_rodenja" />
+                <ScalarProperty Name="adresa" ColumnName="adresa" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="broj_mobitela" ColumnName="broj_mobitela" />
+                <ScalarProperty Name="uvjeti_koristenja" ColumnName="uvjeti_koristenja" />
+                <ScalarProperty Name="uloga_id_uloga" ColumnName="uloga_id_uloga" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Linija">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Linija">
+              <MappingFragment StoreEntitySet="Linija">
+                <ScalarProperty Name="id_linija" ColumnName="id_linija" />
+                <ScalarProperty Name="naziv" ColumnName="naziv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mjesto">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Mjesto">
+              <MappingFragment StoreEntitySet="Mjesto">
+                <ScalarProperty Name="id_mjesto" ColumnName="id_mjesto" />
+                <ScalarProperty Name="naziv" ColumnName="naziv" />
+                <ScalarProperty Name="postanski_broj" ColumnName="postanski_broj" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stanica">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Stanica">
+              <MappingFragment StoreEntitySet="Stanica">
+                <ScalarProperty Name="id_stanica" ColumnName="id_stanica" />
+                <ScalarProperty Name="naziv" ColumnName="naziv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tramvaj">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Tramvaj">
+              <MappingFragment StoreEntitySet="Tramvaj">
+                <ScalarProperty Name="id_tramvaj" ColumnName="id_tramvaj" />
+                <ScalarProperty Name="broj_vagona" ColumnName="broj_vagona" />
+                <ScalarProperty Name="broj_sjedala" ColumnName="broj_sjedala" />
+                <ScalarProperty Name="kapacitet_ljudi" ColumnName="kapacitet_ljudi" />
+                <ScalarProperty Name="godina_proizvodnje" ColumnName="godina_proizvodnje" />
+                <ScalarProperty Name="id_vozac" ColumnName="id_vozac" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uloga">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Uloga">
+              <MappingFragment StoreEntitySet="Uloga">
+                <ScalarProperty Name="id_uloga" ColumnName="id_uloga" />
+                <ScalarProperty Name="naziv" ColumnName="naziv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vozac">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Vozac">
+              <MappingFragment StoreEntitySet="Vozac">
+                <ScalarProperty Name="id_vozac" ColumnName="id_vozac" />
+                <ScalarProperty Name="ime" ColumnName="ime" />
+                <ScalarProperty Name="prezime" ColumnName="prezime" />
+                <ScalarProperty Name="placa" ColumnName="placa" />
+                <ScalarProperty Name="datum_rodenja" ColumnName="datum_rodenja" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="adresa" ColumnName="adresa" />
+                <ScalarProperty Name="id_korisnik" ColumnName="id_korisnik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vozna_ruta">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Vozna_ruta">
+              <MappingFragment StoreEntitySet="Vozna_ruta">
+                <ScalarProperty Name="id_stanica" ColumnName="id_stanica" />
+                <ScalarProperty Name="id_linija" ColumnName="id_linija" />
+                <ScalarProperty Name="vrijeme_dolaska" ColumnName="vrijeme_dolaska" />
+                <ScalarProperty Name="vrijeme_odlaska" ColumnName="vrijeme_odlaska" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vozni_red">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Vozni_red">
+              <MappingFragment StoreEntitySet="Vozni_red">
+                <ScalarProperty Name="id_vozni_red" ColumnName="id_vozni_red" />
+                <ScalarProperty Name="vrijeme_pocetka" ColumnName="vrijeme_pocetka" />
+                <ScalarProperty Name="vrijeme_zavrsetka" ColumnName="vrijeme_zavrsetka" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id_tramvaj" ColumnName="id_tramvaj" />
+                <ScalarProperty Name="id_linija" ColumnName="id_linija" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vrsta_karte">
+            <EntityTypeMapping TypeName="tramvaj_dbModel.Vrsta_karte">
+              <MappingFragment StoreEntitySet="Vrsta_karte">
+                <ScalarProperty Name="id_vrsta_karte" ColumnName="id_vrsta_karte" />
+                <ScalarProperty Name="naziv" ColumnName="naziv" />
+                <ScalarProperty Name="trajanje_valjanosti" ColumnName="trajanje_valjanosti" />
+                <ScalarProperty Name="cijena" ColumnName="cijena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,13 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=Pomoc.chm
+Contents file=PregledVoznogReda.hhc
+Default topic=c:\Users\Dario\Documents\GitHub\pi21-dkulenovi-vkostanje-nhercigon-anovak\Software\dkulenoviKarte\Help\KupnjaKarte.htm
+Display compile progress=No
+Index file=Index.hhk
+Language=0x41a hrvatski (Hrvatska)
+Title=Pregled voznog reda
+
+
+[INFOTYPES]
+
