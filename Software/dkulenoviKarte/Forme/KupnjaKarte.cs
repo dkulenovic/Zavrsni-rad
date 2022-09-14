@@ -57,9 +57,9 @@ namespace SvaSuceljaAplikacije
             }
             Vrsta_karte _vrsta = _unitOfWork.VrstaKarteRepo.DohvatiSve().Where(v => v.naziv == uxVrstaKarte.Text).First();
             int _mjestoID = _unitOfWork.MjestoRepo.DohvatiSve().Where(m => m.naziv == uxMjesto.Text).Select(m => m.id_mjesto).FirstOrDefault();
-
+            _unitOfWork.CreateTransaction();
             var _karta = _unitOfWork.KartaRepo.DohvatiPrazniObjekt();
-
+            
             _karta.valjanost = 1;
             _karta.id_vrsta_karte = _vrsta.id_vrsta_karte;
             _karta.id_mjesto = _mjestoID;
@@ -68,6 +68,7 @@ namespace SvaSuceljaAplikacije
 
             _unitOfWork.KartaRepo.Dodaj(_karta);
             _unitOfWork.KartaRepo.Save();
+            _unitOfWork.Commit();
 
             //ispis karte u PDF format
             IspisKartePDF ispis = new IspisKartePDF(_unitOfWork.KartaRepo.DohvatiPremaId(_karta.id_karta));

@@ -76,6 +76,7 @@
     <Compile Include="DAL\IKartaRepository.cs" />
     <Compile Include="DAL\IKorisnikRepository.cs" />
     <Compile Include="DAL\IMjestoRepository.cs" />
+    <Compile Include="DAL\IUnitOfWork.cs" />
     <Compile Include="DAL\IVrstaKarteRepository.cs" />
     <Compile Include="DAL\KartaRepository.cs" />
     <Compile Include="DAL\KorisnikRepository.cs" />
